@@ -5,9 +5,9 @@
 '##  '##     = Comment
 '##  '####   = Debugger
 '##  '!!!!! = Update
-'##                              
-'##                          [Date Edited: 2-12-2014]  
-'##                         [Edited By: Michael Kracke]  
+'##
+'##                          [Date Edited: 2-12-2014]
+'##                         [Edited By: Michael Kracke]
 '##                               [Version 2.0]
 '################################### END HEADER ###########################################
 '------------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@
 '!  - Fixed the URL errors in products
 '!
 '!  Changes in Formatting
-'!  - Added comments and spacing for easy reading   
+'!  - Added comments and spacing for easy reading
 '!
 '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 '------------------------------------------------------------------------------------------
@@ -39,8 +39,8 @@
 '##     |  6901  | Closed Outdoor Storage Unit (S) |
 '##     |  6902  | Closed Outdoor Storage Unit (L) |
 '##     |  6941  | Resonated Metallophone, IG      |
-'##     |  6942  | Resonated Metallophone, FS-S    |  
-'##     |  6943  | Resonated Metallophone, FS-T    |  
+'##     |  6942  | Resonated Metallophone, FS-S    |
+'##     |  6943  | Resonated Metallophone, FS-T    |
 '##     |  6919  | Rustic Arbor                    |
 '##      -------- ---------------------------------
 '##########################################################################################
@@ -61,27 +61,27 @@ DIM p3902, p3912, p3917, p3918, p3920, p4273, p5555, p5556, p5590, p5591, p6889
 DIM p6919, p6941, p6942, p6943, BREAK
 DIM itemCount, toEmail, plural1, plural2, plural3, emailAdd, orderDate, shipTo, poNum
 i = 2
-j = i 
+j = i
 itemCount = 0
 thisWeek = DATE - 8
-toEmail = FALSE 
-addTip1 = FALSE 
-addTip2 = FALSE 
-addTip3 = FALSE 
-addTip4 = FALSE 
+toEmail = FALSE
+addTip1 = FALSE
+addTip2 = FALSE
+addTip3 = FALSE
+addTip4 = FALSE
 BREAK = TRUE
-plural1 = "an item that requires" 
-plural2 = "its" 
-plural3 = "product" 
+plural1 = "an item that requires"
+plural2 = "its"
+plural3 = "product"
 shipTo = ""
 tipList = ""
 tip1 = 	"<br /> &emsp; - Have you identified your installation area and factored in Use Zone space?"
 tip2 =	"<br /> &emsp; - Permanently installed wooden items are untreated. If choosing to weather treat, ensure the sealant complies with safety codes."
 tip3 = 	"<br /> &emsp; - Have you reviewed the mallet safety guidelines?"
 tip4 = 	"<br /> &emsp; - Are the additional installation materials and tools gathered?"
-URLbegin = "<br /><a href='http://www.natureexplore.org/NaturalProducts/merchDetail.cfm?ID="	
+URLbegin = "<br /><a href='http://www.natureexplore.org/NaturalProducts/merchDetail.cfm?ID="
 
-'## Find items from past week			
+'## Find items from past week
 DO WHILE NOT CDATE(solSheet.Range("B" & i).value) = thisWeek AND BREAK
 	IF solSheet.Range("B" & i).value = "" THEN
 		BREAK = FALSE
@@ -97,10 +97,10 @@ DO WHILE NOT CDATE(solSheet.Range("B" & i).value) = " " AND BREAK
 	soNum = solSheet.Range("A" & i).value
 	oldSo = solSheet.Range("A" & i - 1).value
 	emailAdd = solSheet.Range("M" & i - 1).value
-	orderDate = CDATE(solSheet.Range("B" & i).value)	
-	IF NOT soNum = oldSo THEN 
+	orderDate = CDATE(solSheet.Range("B" & i).value)
+	IF NOT soNum = oldSo THEN
  		IF toEmail THEN
-			DO WHILE NOT shSheet.Range("A" & j).value = oldSo		
+			DO WHILE NOT shSheet.Range("A" & j).value = oldSo
 				j = j + 1
 			LOOP
     		row = shSheet.range("A" & j).row
@@ -129,43 +129,43 @@ DO WHILE NOT CDATE(solSheet.Range("B" & i).value) = " " AND BREAK
  			Email tipList, prodList, oldSo, plural1, plural2, plural3, emailAdd, orderDate, shipTo, poNum
  			toEmail = FALSE
  		END IF
-		
+
 		'## Clear all variables
- 		j = 1 
+ 		j = 1
  		itemCount = 0
- 		shipTo = "" 
- 		orderDate = "" 
+ 		shipTo = ""
+ 		orderDate = ""
 		poNum = ""
-		tipList = "" 
- 		prodList = " " 
- 		plural1 = "an item that requires" 
- 		plural2 = "its" 
+		tipList = ""
+ 		prodList = " "
+ 		plural1 = "an item that requires"
+ 		plural2 = "its"
  		plural3 = "product"
 		prodList = ""
 		itemcount = 1
-		addTip1 = FALSE 
-		addTip2 = FALSE 
-		addTip3 = FALSE 
-		addTip4 = FALSE 
- 		p3902 = FALSE 
- 		p3912 = FALSE 
- 		p3917 = FALSE 
- 		p3918 = FALSE 
- 		p3920 = FALSE 
- 		p4273 = FALSE 
- 		p5555 = FALSE 
- 		p5556 = FALSE 
- 		p5590 = FALSE 
- 		p5591 = FALSE 
- 		p6889 = FALSE 
- 		p6919 = FALSE 
- 		p6941 = FALSE 
- 		p6942 = FALSE 
+		addTip1 = FALSE
+		addTip2 = FALSE
+		addTip3 = FALSE
+		addTip4 = FALSE
+ 		p3902 = FALSE
+ 		p3912 = FALSE
+ 		p3917 = FALSE
+ 		p3918 = FALSE
+ 		p3920 = FALSE
+ 		p4273 = FALSE
+ 		p5555 = FALSE
+ 		p5556 = FALSE
+ 		p5590 = FALSE
+ 		p5591 = FALSE
+ 		p6889 = FALSE
+ 		p6919 = FALSE
+ 		p6941 = FALSE
+ 		p6942 = FALSE
  		p6943 = FALSE
  		toEmail = FALSE
  		BREAK = TRUE
 	END IF
-	
+
 	'## Add products
  	SELECT CASE itemNum
  		CASE "3902"
@@ -229,11 +229,11 @@ DO WHILE NOT CDATE(solSheet.Range("B" & i).value) = " " AND BREAK
 			p6943 = TRUE
 			itemCount = itemCount + 1
 	END SELECT
-	
+
 	'## Add questions
 	IF (p3917 OR p3918 OR p3920) AND NOT addTip1 THEN
 		tipList = tipList & tip1
-		addTip1 = TRUE	
+		addTip1 = TRUE
 	END IF
 	IF (p3902 OR p3912 OR p3917 OR p3918 OR p3920 OR p4273 OR p5555 OR p5556 OR p5590 OR p5591 OR p6919) AND NOT addTip2 THEN
 		tipList = tipList & tip2
@@ -246,13 +246,13 @@ DO WHILE NOT CDATE(solSheet.Range("B" & i).value) = " " AND BREAK
 	IF (p3902 OR p3912 OR p3917 OR p3918 OR p3920 OR p4273 OR p5555 OR p5556 OR p5590 OR  p5591 OR p6889 OR p6919 OR p6941 OR p6942 OR p6943) AND NOT addTip4 THEN
 		tipList = tipList & tip4
 		addTip4 = TRUE
-	END IF  
+	END IF
 	IF addTip1 OR addTip2 OR addTip3 OR addTip4 THEN
 		toEmail = TRUE
 	END IF
 	IF itemCount > 1 THEN
-		plural1 = "items that require" 
-		plural2 = "their" 
+		plural1 = "items that require"
+		plural2 = "their"
 		plural3 = "products"
 	END IF
 	i = i + 1
@@ -270,10 +270,10 @@ FUNCTION Email(tipList, prodList, soNum, plural1, plural2, plural3, emailAdd, or
 	END IF
 	IF NOT emailAdd = "" THEN
 		objEmail.Recipients.add(emailAdd)
-		ccEmail = "service@natureexplore.org; jeffl@natureexplore.org;"  
+		ccEmail = "service@natureexplore.org; jeffl@natureexplore.org;"
 		noEmail = ""
 	ELSE
-		emailAdd = "service@natureexplore.org; jeffl@natureexplore.org;"  
+		emailAdd = "service@natureexplore.org; jeffl@natureexplore.org;"
 		ccEmail = ""
 		noEmail = "<font color='RED'><b>*NO EMAIL*</b></font><br /><br />"
 	END IF
@@ -283,30 +283,30 @@ FUNCTION Email(tipList, prodList, soNum, plural1, plural2, plural3, emailAdd, or
 	SET objNamespace = objOutlook.GetNamespace("MAPI")
 	SET objEmail = objOutlook.CreateItem(olMailItem)
 	objEmail.Recipients.add(emailAdd)
-	objEmail.cc = ccEmail       
+	objEmail.cc = ccEmail
 	objEmail.Subject = "Nature Explore Order: Assembly/Installation Instructions"
-	objEmail.HTMLBody = "<font face='Calibri' size='3'>Hello, <br /><br />" &_ 
+	objEmail.HTMLBody = "<font face='Calibri' size='3'>Hello, <br /><br />" &_
 	"Your Nature Explore order, " & soNum & poSeg & ", placed on " & orderdate  &_
 	", contains " & plural1 & " additional assembly/installation. In preparation for " & plural2 & " arrival, " &_
 	"please review the  instructions and key considerations listed below.<br /><br />" &_
 	"<b>Shipping To:</b> <br />" &_
-	"&emsp;"  & shipTo &_ 
-	"<b>" & prodList & "</b><br />" & tipList & "<br /><br />" &_ 
+	"&emsp;"  & shipTo &_
+	"<b>" & prodList & "</b><br />" & tipList & "<br /><br />" &_
 	"Outdoor classroom items require routine maintenance including visual inspection, " &_
 	"bolt tightening, sanding and in most cases weather sealing. Wooden items will " &_
 	"check and crack over time, and develop a beautiful silvery-gray patina. In " &_
 	"addition to proper assembly/installation, we suggest creating a maintenance schedule " &_
 	"to ensure items are in top condition; this will help extend the useful life of your " &_
 	plural3 & ".<br /><br />" &_
-	"<a href='http://www.natureexplore.org/NaturalProducts/warranty.cfm' " &_ 
+	"<a href='http://www.natureexplore.org/NaturalProducts/warranty.cfm' " &_
 	"style='text-decoration:none;'>Click here</a> for our quality commitment information. <br />" &_
-	"<br />" &_ 
+	"<br />" &_
 	"Thank you for taking the time to review the assembly/installation instructions. " &_
 	"We will email you shipment tracking information as soon as it is available. " &_
 	"(As specified in our Resource Guide, drop-shipped items can take up to 4-weeks to ship.)" &_
 	"<br />" &_
 	"<br />" &_
-	"<br />" &_ 
+	"<br />" &_
 	"Thanks again,<br />" &_
 	"<br /> <b>Natural Products Specialist Team</b><br />"  &_
 	"Nature Explore<br />" &_
@@ -321,9 +321,9 @@ END FUNCTION
 
 '## Close files
 MsgBox "Done!"
-objWorkbook.Close 
-objWbs.Close 
-objApp.Quit 
+objWorkbook.Close
+objWbs.Close
+objApp.Quit
 SET shSheet = NOTHING
 SET solSheet = NOTHING
 SET	objWorkbook = NOTHING

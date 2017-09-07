@@ -1,11 +1,11 @@
 '################################## SCRIPT HEADER #########################################
 '##  This script will take SO #'s along with Excel spreasheets take selected information
 '##    from them and place them into a template email and save that email as a draft.
-'## 
 '##
-'## This will be broken into to parts: Scan excel spreadsheet for information                                    					                        
+'##
+'## This will be broken into to parts: Scan excel spreadsheet for information
 '##                                    Save template (w/ info from UPS) in drafts folder
-'##                                                 in Outlook											
+'##                                                 in Outlook
 '##
 '##  <variable_name>     = Reference in a comment to a variable in code
 '##  '       = Line of code not approved for live use
@@ -22,22 +22,22 @@
 '!  Changes in Code
 '!  - Added possible call instructions to Function getEmail
 '!  - Updated Function sendEmail to include changes from ^^
-'!  - Added <soNum> to the subject line 
-'! 
+'!  - Added <soNum> to the subject line
+'!
 '!  Changes in Formatting
-'!  - Added comments and spacing for easy reading   
-'! 
+'!  - Added comments and spacing for easy reading
+'!
 '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 '------------------------------------------------------------------------------------------
 '################################# INSTRUCTIONS ###########################################
 '##            Below is a brief set of instructions on how to use this script
-'## 
+'##
 '##     This script is written to run regardless of whose account the script is run on.
 '##    For the script to run correctly a structure of folders must be set and followed.
 '##    The follows folders and locations must exist for the script to run:
 '##   - This script should live in C:\Scripts\NES\Shipnotify.vbs
 '##   - Outlook should also contain the folder structure "Drafts\UPS Notifications"
-'##        This is to separate the drafts create by this script from any other drafts 
+'##        This is to separate the drafts create by this script from any other drafts
 '############################### END OF INSTRUCTIONS ######################################
 '------------------------------------------------------------------------------------------
 '################################# START OF SCRIPT ########################################
@@ -64,7 +64,7 @@ ON ERROR RESUME NEXT
 	'## Snarf SO #
 	DIM Reg3, so, soNum, catch3
 	SET Reg3 = NEW RegExp
-	WITH Reg3 
+	WITH Reg3
 		.Pattern = "SO[0-9]{8}"
 		.IgnoreCase = TRUE
 		.Global = TRUE
@@ -76,7 +76,7 @@ ON ERROR RESUME NEXT
 		NEXT
 	END IF
 	'## Find order in Excel from <soNum>
-	DIM i, flip, row 
+	DIM i, flip, row
 	flip = true
 	i = 5
 	DO WHILE flip = TRUE
@@ -96,8 +96,8 @@ ON ERROR RESUME NEXT
 	trackNum = refNum(3)
 	shipMethod = refNum(2)
 	SELECT CASE loc
-		CASE loc = InStr(refNum(1), "NE") 
-			locCode = "MAIN"		
+		CASE loc = InStr(refNum(1), "NE")
+			locCode = "MAIN"
 		CASE loc = InStr(refNum(1), "AW")
 			locCode = "AKERWOODS"
 		CASE loc = InStr(refNum(1), "BA")
@@ -151,31 +151,31 @@ ON ERROR RESUME NEXT
 		create = FALSE
 	END IF
 '## Create email iff vbYes
-LOOP		
-	
-'!! - DOES NOT WORK 
-'## Add hyperlinks to main shipping methods 
+LOOP
+
+'!! - DOES NOT WORK
+'## Add hyperlinks to main shipping methods
 FUNCTION Tracking(trackNum, shipMethod)
 	'msgbox "inTrack"
 	'msgbox shipMethod & ": " & UCASE(shipMethod)
 	SELECT CASE shipMethod
-		CASE shipMethod = "FEDEX" 
+		CASE shipMethod = "FEDEX"
 		'msgbox trackNum
 			trackNum = "<a href='https://www.fedex.com/fedextrack/index.html?tracknumbers=" & trackNum & "&cntry_code=us'> " &_
 			trackNum & "</a>"
 		'kmsgbox trackNum
-		CASE UCASE(shipMethod) = "SAIA" 
+		CASE UCASE(shipMethod) = "SAIA"
 			trackNum = "<a href='www.saia.com'> " & UCASE(trackNum) & "</a>"
 		CASE UCASE(shipMethod) = "SPEEDEE"
 			trackNum = "<a href='http://www.speedeedelivery.com/'> " & UCASE(trackNum) & "</a>"
-		CASE UCASE(shipMethod) = "UPS" 
+		CASE UCASE(shipMethod) = "UPS"
 			trackNum = "<a href='http://wwwapps.ups.com/WebTracking/processInputRequest?HTMLVersion=5.0&loc=en_US&Requester=UPSHome&tracknum=" &_
-			trackNum & "&track.x=36&track.y=13'>" & trackNum & "</a><br />" 
-		CASE UCASE(shipMethod) = "YRC" 
+			trackNum & "&track.x=36&track.y=13'>" & trackNum & "</a><br />"
+		CASE UCASE(shipMethod) = "YRC"
 			trackNum = "<a href='www.YRC.com'> " & UCASE(trackNum) & "</a>"
 		END SELECT
-'## End Functions Tracking		
-END FUNCTION 
+'## End Functions Tracking
+END FUNCTION
 
 '## Get the email address, special emails, & phone #
 FUNCTION getEmail(soNum, emailAdd, phone)
@@ -195,9 +195,9 @@ DIM n, theEnd, tmp
 			END IF
 			n = n + 1
 		LOOP
-'## End Function get Email		
+'## End Function get Email
 END FUNCTION
-	
+
 '## Add the shipping address
 FUNCTION ShipAddress(shipTo)
 	IF NOT solSheet.Range("AH" & i - 1).value = "" THEN
@@ -211,7 +211,7 @@ FUNCTION ShipAddress(shipTo)
 	END IF
 	IF NOT solSheet.Range("AK" & i - 1).value = "" THEN
 		shipTo = shipTo & solSheet.Range("AK" & i - 1).value & "<br />&emsp;"
-	END IF 
+	END IF
 	IF NOT solSheet.Range("AL" & i - 1).value = "" THEN
 		shipTo = shipTo & solSheet.Range("AL" & i - 1).value & "<br />&emsp;"
 	END IF
@@ -225,15 +225,15 @@ FUNCTION ShipAddress(shipTo)
 END FUNCTION
 
 '## Add items to the shipped and pending lists
-FUNCTION ProductList (row, item, pending, locCode, soNum, shNum)		
+FUNCTION ProductList (row, item, pending, locCode, soNum, shNum)
 	tmp = " "
 	item = " "
 	'## Shipped List
 	DO WHILE solSheet.Range("A" & row).value = soNum
 		where = (solSheet.Range("T" & row).value = locCode)
 		what = (solSheet.Range("R" & row).value = "SHIP")
-		how = (solSheet.Range("AR" & row).value = shNum) 
-		here = (solSheet.Range("C" & row).value = "In Progress") 
+		how = (solSheet.Range("AR" & row).value = shNum)
+		here = (solSheet.Range("C" & row).value = "In Progress")
 		IF where AND (how OR here) AND NOT what THEN
 				item = item & "<tr><td>" & solSheet.Range("R" & row).value &_
 					"</td><td>" & solSheet.Range("S" & row).value &_
@@ -244,16 +244,16 @@ FUNCTION ProductList (row, item, pending, locCode, soNum, shNum)
 			tmp = tmp & "<tr><td>" & solSheet.Range("R" & row).value &_
 					"</td><td>" & solSheet.Range("S" & row).value &_
 					"</td><td>" & solSheet.Range("W" & row).value & "</td></tr>"
-			pending = "Items pending shipment from this order: <br /><br />" &_ 
-				"<table border='1' text-align='center' cellpadding='2'>" &_ 
+			pending = "Items pending shipment from this order: <br /><br />" &_
+				"<table border='1' text-align='center' cellpadding='2'>" &_
 				"<tr><td><b>Item #</b></td><td><b>Description</b></td><td><b>Qty</b></td></b></tr>" &_
 				tmp &_
-				"</table></span><br />" &_ 
-				"As specified in our Resource Guide, drop-shipped items can take up to 4-weeks to ship. <br /><br /> " 
-		END IF	
+				"</table></span><br />" &_
+				"As specified in our Resource Guide, drop-shipped items can take up to 4-weeks to ship. <br /><br /> "
+		END IF
 		row = row + 1
 	LOOP
-'## End Function ProductList	
+'## End Function ProductList
 END FUNCTION
 
 '!! Create and save the email as a draft
@@ -263,37 +263,37 @@ FUNCTION SendEmail(packNum, refNum, shipTo, trackNum, shipMethod, emailAdd, phon
 	IF NOT emailAdd = "" THEN
 		objEmail.Recipients.add(emailAdd)
 		noEmail = ""
-	ELSE 
+	ELSE
 		noEmail = "<font color='RED'><b>*NO EMAIL*</b></font><br /><br />"
 	END IF
 	'## Add Call instructions iff they exist
 	'IF NOT phone = "" THEN
 	'	toCall = "<font color='RED'><b>Please call when ships: " & phone & "</b></font><br /><br />"
-	'ELSE 
+	'ELSE
 		toCall = " "
 '	END IF
-	'## Copy service@... 
+	'## Copy service@...
 	objEmail.cc = "service@natureexplore.org"
 	'## Standard subject line
 	objEmail.Subject = "Nature Explore Shipping Information - Order: " & refNum(0)
 	'## Compose HTML Email Draft
-	objEmail.HTMLBody = "<font face='Calibri' size='3'>" & noEmail & toCall & "Hello,<br /><br />" &_ 
-	"Items from your recent Nature Explore order have shipped. Below is your tracking information: <br /><br />" &_ 
-	"<b>Shipping To:</b><br />" &_ 
-	"&emsp;" & shipTo  & "<br />" &_ 
-	"<b>Order #: </b>" & refNum(0) & "<br /><br />" &_ 
-	"<table border='1' text-align='center'>" &_ 
-	"<tr><td><b>Item #</b></td><td><b>Description</b></td><td><b>Qty</b></td></b></tr>" &_ 
-	item &_ 
-	"</table><br />" &_ 
-	"<span style='text-align:center'><b>Shipment Method:</b> " & shipMethod & "<br />" &_ 
+	objEmail.HTMLBody = "<font face='Calibri' size='3'>" & noEmail & toCall & "Hello,<br /><br />" &_
+	"Items from your recent Nature Explore order have shipped. Below is your tracking information: <br /><br />" &_
+	"<b>Shipping To:</b><br />" &_
+	"&emsp;" & shipTo  & "<br />" &_
+	"<b>Order #: </b>" & refNum(0) & "<br /><br />" &_
+	"<table border='1' text-align='center'>" &_
+	"<tr><td><b>Item #</b></td><td><b>Description</b></td><td><b>Qty</b></td></b></tr>" &_
+	item &_
+	"</table><br />" &_
+	"<span style='text-align:center'><b>Shipment Method:</b> " & shipMethod & "<br />" &_
 	"<b>Tracking number:</b> " & trackNum & "<br />" &_
-	"<b>Number of Packages:</b> <br /><br />" &_ 
+	"<b>Number of Packages:</b> <br /><br />" &_
 	pending &_
 	"Please open and inspect all items immediately upon receipt: "  &_
-	"Carefully unpack and inspect the contents of all cartons and make sure all parts are there. " &_ 
-	"If any parts are missing or damaged, contact Nature Explore immediately at 1-888-908-8733 or service@natureexplore.org. <br /><br />" &_ 
-	"If you have any questions please feel free to call or email. <br /><br />" &_ 
+	"Carefully unpack and inspect the contents of all cartons and make sure all parts are there. " &_
+	"If any parts are missing or damaged, contact Nature Explore immediately at 1-888-908-8733 or service@natureexplore.org. <br /><br />" &_
+	"If you have any questions please feel free to call or email. <br /><br />" &_
 	"Thanks!<br />" &_
 	"<br /> <b>Natural Products Specialist Team</b><br />"  &_
 	"Nature Explore<br />" &_
@@ -309,9 +309,9 @@ FUNCTION SendEmail(packNum, refNum, shipTo, trackNum, shipMethod, emailAdd, phon
 END FUNCTION
 
 '## Close files and quit program
-objWorkbook.Close 
-objWbs.Close 
-objApp.Quit 
+objWorkbook.Close
+objWbs.Close
+objApp.Quit
 SET solSheet = NOTHING
 SET	objWorkbook = NOTHING
 SET objWbs = NOTHING
