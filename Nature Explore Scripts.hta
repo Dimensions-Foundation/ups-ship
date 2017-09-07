@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>NES</title>
+<HTA:APPLICATION 
+	SCROLL="NO"
+	APPLICATIONNAME="Nature Explore Scripts" 
+	ID="VBSApp"/>
+</head>
+<script language="VBScript">
+Sub Window_OnLoad
+	window.resizeto 289,170
+End Sub
+
+DIM notify
+SET notify = CreateObject("WScript.Shell")
+
+Sub upsScript
+notify.Run "C:\Scripts\NES\UPSnotify.vbs"
+End Sub
+
+Sub cyoScript
+notify.Run "C:\Scripts\NES\Shipnotify.vbs"
+End Sub
+
+Sub QCPIScript
+notify.Run "C:\Scripts\NES\QCPI.vbs"
+End Sub
+
+Sub killExcel
+notify.Run "C:\Scripts\NES\killExcel.vbs"
+End Sub
+
+</script>
+<body bgcolor='D8D8D8'>
+Please Select a Script to Run <br /><br />
+<input type="button" value="Auto Create"  onClick="upsScript"> &nbsp;
+<input type="button" value="Manuel Create" onClick="cyoScript"><br /><br />
+<input type="button" value="Quality Control"  onClick="QCPIScript"> &nbsp;
+<input type="button" value="Stop Excel" onClick="killExcel">
+</body>
+</html>
